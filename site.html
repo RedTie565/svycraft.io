@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SvyCraft — Ванильное Выживание</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #0d0d0d;
+      color: #f0f0f0;
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: url('https://i.imgur.com/5sBkGqO.jpg') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+    }
+
+    nav {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.5rem;
+      color: #4CAF50;
+    }
+
+    .logo-animated {
+      display: inline-block;
+      font-size: 1.5rem;
+    }
+
+    .logo-char {
+      display: inline-block;
+      animation: pixelFloat 2s infinite ease-in-out;
+    }
+
+    .logo-char:nth-child(2) { animation-delay: 0.1s; }
+    .logo-char:nth-child(3) { animation-delay: 0.2s; }
+    .logo-char:nth-child(4) { animation-delay: 0.3s; }
+    .logo-char:nth-child(5) { animation-delay: 0.4s; }
+    .logo-char:nth-child(6) { animation-delay: 0.5s; }
+    .logo-char:nth-child(7) { animation-delay: 0.6s; }
+    .logo-char:nth-child(8) { animation-delay: 0.7s; }
+
+    @keyframes pixelFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #4CAF50;
+    }
+
+    .hero-content h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      max-width: 700px;
+    }
+
+    #joinBtn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    #joinBtn:hover {
+      background: #45a049;
+    }
+
+    /* Sections */
+    .section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section.dark {
+      background: #1a1a1a;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      color: #4CAF50;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .feature-card {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-card h3 {
+      color: #FFD700;
+      margin-bottom: 10px;
+    }
+
+    /* Rules */
+    #rules ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #rules li {
+      background: #222;
+      margin: 10px 0;
+      padding: 12px;
+      border-left: 4px solid #4CAF50;
+      border-radius: 4px;
+    }
+
+    /* Connect */
+    .connect-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    #server-ip {
+      background: #222;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 1.1rem;
+    }
+
+    .version {
+      margin-top: 15px;
+      color: #aaa;
+    }
+
+    /* Players List */
+    .players-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .player-card {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 200px;
+      transition: transform 0.3s;
+    }
+
+    .player-card:hover {
+      transform: scale(1.05);
+    }
+
+    .player-avatar {
+      width: 80px;
+      height: 80px;
+      background: #333;
+      border: 2px solid #4CAF50;
+      border-radius: 8px;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: #FFD700;
+    }
+
+    /* Community */
+    .discord-btn {
+      display: inline-block;
+      background: #5865F2;
+      color: white;
+      text-decoration: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    .discord-btn:hover {
+      background: #4752c4;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111;
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .hero-content h1 {
+        font-size: 1.8rem;
+      }
+      .feature-card, .player-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="overlay"></div>
+    <nav>
+      <div class="logo-container">
+        <div class="logo-animated" id="animatedLogo"></div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#about">О сервере</a></li>
+        <li><a href="#rules">Правила</a></li>
+        <li><a href="#connect">Подключиться</a></li>
+        <li><a href="#players">Игроки</a></li>
+        <li><a href="#community">Сообщество</a></li>
+      </ul>
+    </nav>
+
+    <div class="hero-content">
+      <h1>SvyCraft</h1>
+      <p>Ванильное выживание без модов, честно и по-настоящему</p>
+      <button id="joinBtn">Присоединиться</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="section">
+      <h2>О сервере</h2>
+      <p>
+        SvyCraft — это сервер в стиле классического Minecraft: никаких плагинов, модов или приватов.
+        Только ты, мир, ресурсы и другие игроки. Строй, добывай, сражайся и выживай!
+      </p>
+      <div class="features">
+        <div class="feature-card">
+          <h3>✅ Без читов</h3>
+          <p>Античит и модерация 24/7</p>
+        </div>
+        <div class="feature-card">
+          <h3>🌍 Открытый мир</h3>
+          <p>Без границ — исследуй бесконечные земли</p>
+        </div>
+        <div class="feature-card">
+          <h3>👥 Дружелюбное сообщество</h3>
+          <p>Игроки помогают новичкам и строят вместе</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules" class="section dark">
+      <h2>Правила сервера</h2>
+      <ul>
+        <li>Запрещены читы, взлом клиентов и эксплойты.</li>
+        <li>Нельзя гриферить чужие постройки.</li>
+        <li>Уважайте других игроков — никакого токсичного поведения.</li>
+        <li>Торговля разрешена, но только честная.</li>
+        <li>Помогайте новичкам — мы все начинали с нуля!</li>
+      </ul>
+    </section>
+
+    <section id="connect" class="section">
+      <h2>Как подключиться?</h2>
+      <div class="connect-info">
+        <p><strong>IP-адрес:</strong> <code id="server-ip">play.svycraft.ru</code></p>
+        <button onclick="copyIP()">📋 Копировать IP</button>
+        <p class="version">Версия: <strong>Minecraft 1.20.4</strong></p>
+      </div>
+    </section>
+
+    <section id="players" class="section dark">
+      <h2>Игроки онлайн</h2>
+      <div class="players-grid">
+        <div class="player-card">
+          <div class="player-avatar">SVYTHOS</div>
+          <h3>svythos</h3>
+          <p>Основатель</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="community" class="section">
+      <h2>Присоединяйся к нам!</h2>
+      <p>Наш Discord — место, где общаются игроки, делятся постройками и координируют рейды.</p>
+      <a href="https://discord.gg/svycraft" target="_blank" class="discord-btn">💬 Перейти в Discord</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 SvyCraft. Все права защищены.</p>
+  </footer>
+
+  <script>
+    // Анимированный логотип "SvyCraft"
+    function animateLogo() {
+      const logoText = "SvyCraft";
+      const container = document.getElementById("animatedLogo");
+      container.innerHTML = "";
+      for (let char of logoText) {
+        const span = document.createElement("span");
+        span.className = "logo-char";
+        span.textContent = char === ' ' ? '\u00A0' : char;
+        container.appendChild(span);
+      }
+    }
+
+    // Копирование IP
+    function copyIP() {
+      const ip = document.getElementById("server-ip").textContent;
+      navigator.clipboard.writeText(ip).then(() => {
+        alert("IP скопирован: " + ip);
+      }).catch(err => {
+        console.error("Не удалось скопировать IP:", err);
+      });
+    }
+
+    // Плавная прокрутка
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Инициализация
+    window.addEventListener('load', animateLogo);
+  </script>
+</body>
+</html>
